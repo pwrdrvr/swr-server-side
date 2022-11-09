@@ -1,0 +1,28 @@
+diff --git a/node_modules/swr/dist/index.js b/node_modules/swr/dist/index.js
+index 53f8949..c953527 100644
+--- a/node_modules/swr/dist/index.js
++++ b/node_modules/swr/dist/index.js
+@@ -475,7 +475,10 @@ var defaultConfig = mergeObjects({
+ // use web preset by default
+ preset);
+ 
++let mergeConfigsCallCount = 0;
+ var mergeConfigs = function (a, b) {
++    mergeConfigsCallCount++;
++    console.log('mergeConfigsCallCount', mergeConfigsCallCount);
+     // Need to create a new object to avoid mutating the original here.
+     var v = mergeObjects(a, b);
+     // If two configs are provided, merge their `use` and `fallback` options.
+@@ -585,8 +588,11 @@ var normalize = function (args) {
+         : [args[0], null, (args[1] === null ? args[2] : args[1]) || {}];
+ };
+ 
++let useSWRConfigCallCount = 0;
+ var useSWRConfig = function () {
+-    return mergeObjects(defaultConfig, react.useContext(SWRConfigContext));
++  useSWRConfigCallCount++;
++  console.log('useSWRConfigCallCount', useSWRConfigCallCount);
++  return mergeObjects(defaultConfig, react.useContext(SWRConfigContext));
+ };
+ 
+ // It's tricky to pass generic types as parameters, so we just directly override
